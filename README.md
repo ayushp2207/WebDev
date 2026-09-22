@@ -5,7 +5,7 @@ listings from a local JSON snapshot using `fetch()` and `await`, renders them as
 cards, and lets you pit up to three of them against each other in a compare
 tray.
 
-**Live demo:** https://ayushp2207.github.io/airbnb-listings-compare/
+**Live demo:** https://ayushp2207.github.io/WebDev/
 
 ![Screenshot of the listings grid with the compare tray open](docs/screenshot.png)
 
@@ -58,8 +58,8 @@ HTTP. Opening `index.html` by double-clicking it will show an error card that
 says as much.
 
 ```bash
-git clone https://github.com/ayushp2207/airbnb-listings-compare.git
-cd airbnb-listings-compare
+git clone https://github.com/ayushp2207/WebDev.git
+cd WebDev
 npx http-server .          # or: python3 -m http.server 8000
 ```
 
@@ -86,7 +86,8 @@ the bulk of the page weight — worth knowing if the first load feels slow.
 ├── css/main.css                  # Card, chip, and tray styling on top of Bootstrap 5.3
 ├── js/main.js                    # MainModule: fetch, render, and all compare logic
 ├── airbnb_sf_listings_500.json   # Inside Airbnb snapshot, 523 SF listings
-└── docs/screenshot.png           # README image
+├── docs/screenshot.png           # README image
+└── LICENSE                       # MIT
 ```
 
 `js/main.js` keeps the revealing-module pattern from the in-class demo —
@@ -112,4 +113,5 @@ September 2023.
 
 Starter code adapted from John Guerra's in-class demo,
 [Airbnb_Listings_demo_page](https://github.com/john-guerra/Airbnb_Listings_demo_page).
-Built for CS5610 Web Development at Northeastern.
+Built for CS5610 Web Development at Northeastern. Released under the
+[MIT License](LICENSE).

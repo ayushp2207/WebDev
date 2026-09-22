@@ -1,17 +1,23 @@
 {
-  "name": "airbnb_listings2",
+  "name": "airbnb-listings-compare",
   "version": "1.0.0",
-  "description": "",
-  "main": ".eslintrc.js",
+  "description": "First 50 SF Airbnb listings loaded with fetch/await, with a side-by-side compare tray",
+  "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "airbnb",
+    "fetch",
+    "bootstrap",
+    "cs5610"
+  ],
+  "author": "Ayush Patel",
+  "license": "MIT",
   "devDependencies": {
     "eslint": "^8.50.0",
     "eslint-config-prettier": "^9.0.0",
     "prettier": "^3.0.3"
-  }
+  },
+  "homepage": "https://ayushp2207.github.io/WebDev/"
 }
