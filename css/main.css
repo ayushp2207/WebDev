@@ -1,0 +1,381 @@
+:root {
+  --ink: #1d1d1f;
+  --muted: #6c757d;
+  --accent: #e11d48;
+  --line: #e6e6e8;
+}
+
+body {
+  color: var(--ink);
+  background-color: #fbfbfc;
+}
+
+/* Leaves room for the compare tray so the last row of cards stays reachable. */
+body.tray-open {
+  padding-bottom: 52vh;
+}
+
+.brand-dot {
+  display: inline-block;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-right: 0.15rem;
+}
+
+.hero h1 {
+  letter-spacing: -0.02em;
+}
+
+.stat-card {
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 4%);
+}
+
+.stat-card dd {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+/* ------------------------------------------------------------------ cards */
+
+.listing.card {
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  overflow: hidden;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.listing.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgb(0 0 0 / 8%);
+}
+
+.listing.is-comparing {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgb(225 29 72 / 25%);
+}
+
+.listing-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: #e9ecef;
+}
+
+.listing-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.price-badge,
+.superhost-badge {
+  position: absolute;
+  bottom: 0.65rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  background: rgb(255 255 255 / 94%);
+  box-shadow: 0 1px 4px rgb(0 0 0 / 15%);
+}
+
+.price-badge {
+  left: 0.65rem;
+}
+
+.price-badge small {
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.superhost-badge {
+  top: 0.65rem;
+  bottom: auto;
+  right: 0.65rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+}
+
+.card-title {
+  line-height: 1.35;
+}
+
+.listing-meta {
+  margin-bottom: 0.15rem;
+  font-size: 0.9rem;
+}
+
+.listing-meta .rating {
+  font-weight: 600;
+}
+
+.listing-specs {
+  margin-bottom: 0.6rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.listing-description {
+  font-size: 0.9rem;
+  color: #444;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------------- amenities */
+
+.amenity-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+}
+
+.chip {
+  padding: 0.15rem 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  font-size: 0.75rem;
+  color: #444;
+  white-space: nowrap;
+}
+
+.chip-more {
+  background: #f1f3f5;
+  color: var(--muted);
+}
+
+.chip-unique {
+  border-color: rgb(225 29 72 / 35%);
+  background: rgb(225 29 72 / 6%);
+  color: var(--accent);
+  font-weight: 600;
+  white-space: normal;
+}
+
+.amenities-empty {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* -------------------------------------------------------------------- host */
+
+.listing-host {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--line);
+}
+
+.host-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex: 0 0 auto;
+  background: #e9ecef;
+}
+
+.host-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  min-width: 0;
+}
+
+.host-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.host-since {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.listing-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+}
+
+.compare-checkbox:checked {
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ------------------------------------------------------------ compare tray */
+
+.compare-tray {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1040;
+  background: #fff;
+  border-top: 1px solid var(--line);
+  box-shadow: 0 -8px 30px rgb(0 0 0 / 12%);
+  transform: translateY(105%);
+  transition: transform 0.28s ease;
+  /* Deliberately under half the viewport: the tray has to stay out of the way
+     of the cards you are still picking from. */
+  max-height: 48vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.compare-tray.is-open {
+  transform: translateY(0);
+}
+
+.compare-tray-header {
+  border-bottom: 1px solid var(--line);
+}
+
+.compare-tray-body {
+  overflow: auto;
+  padding-bottom: 1rem;
+}
+
+.compare-table {
+  min-width: 640px;
+  font-size: 0.875rem;
+}
+
+.compare-table th[scope="row"] {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: #fff;
+  width: 9.5rem;
+  min-width: 9.5rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.compare-table thead th {
+  vertical-align: bottom;
+  background: #fff;
+}
+
+.compare-corner {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.compare-col-head {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 11rem;
+}
+
+.compare-thumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 0.5rem;
+  object-fit: cover;
+  flex: 0 0 auto;
+  background: #e9ecef;
+}
+
+.compare-col-title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.compare-name {
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.compare-name:hover {
+  text-decoration: underline;
+}
+
+.compare-remove {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.compare-table td.is-best {
+  background: rgb(25 135 84 / 8%);
+  font-weight: 700;
+}
+
+.best-flag {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0 0.35rem;
+  border-radius: 999px;
+  background: #198754;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  vertical-align: 1px;
+}
+
+.compare-exclusive-row td,
+.compare-exclusive-row th {
+  border-bottom: 0;
+  padding-top: 0.75rem;
+  vertical-align: top;
+}
+
+/* Highlight a card when you jump to it from the tray. */
+.listing:target {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgb(225 29 72 / 30%);
+}
+
+@media (max-width: 575.98px) {
+  .compare-tray {
+    max-height: 50vh;
+  }
+
+  body.tray-open {
+    padding-bottom: 54vh;
+  }
+
+  .compare-table th[scope="row"] {
+    width: 7rem;
+    min-width: 7rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .listing.card,
+  .compare-tray {
+    transition: none;
+  }
+
+  .listing.card:hover {
+    transform: none;
+  }
+}

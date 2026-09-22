@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SF Airbnb Listings &middot; Compare Tray</title>
+    <meta
+      name="description"
+      content="The first 50 San Francisco Airbnb listings, loaded with fetch/await, with a side-by-side compare tray."
+    />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23e11d48'/></svg>"
+    />
+
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+          <a class="navbar-brand fw-bold" href="./">
+            <span class="brand-dot"></span> SF Stays
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarMain"
+            aria-controls="navbarMain"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarMain">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#listings"
+                  >Listings</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#how-it-works">How it works</a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="https://insideairbnb.com/get-the-data/"
+                  target="_blank"
+                  rel="noopener"
+                  >Data source</a
+                >
+              </li>
+            </ul>
+            <button
+              id="openTrayBtn"
+              class="btn btn-outline-light btn-sm"
+              type="button"
+              disabled
+            >
+              Compare <span id="navCompareCount" class="badge bg-light text-dark">0</span>
+            </button>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="hero row align-items-center g-4 py-5">
+        <div class="col-lg-7">
+          <h1 class="display-5 fw-bold mb-3">
+            50 San Francisco stays, side by side.
+          </h1>
+          <p class="lead text-body-secondary mb-2">
+            Every card below is fetched at page load from a 500-listing Inside
+            Airbnb snapshot using <code>fetch()</code> and <code>await</code> &mdash;
+            no server, no framework, no build step.
+          </p>
+          <p class="text-body-secondary mb-0">
+            Tick <strong>Compare</strong> on any card (up to three) and a tray
+            slides up from the bottom to line them up on price, rating, space,
+            and &mdash; the fun part &mdash; the amenities that
+            <em>only one of them</em> has.
+          </p>
+        </div>
+        <div class="col-lg-5">
+          <div class="stat-card p-4">
+            <h2 class="h6 text-uppercase text-body-secondary mb-3">
+              This page, in numbers
+            </h2>
+            <dl class="row mb-0" id="summaryStats">
+              <dt class="col-7">Listings shown</dt>
+              <dd class="col-5 text-end mb-2" id="statCount">&hellip;</dd>
+              <dt class="col-7">Median price / night</dt>
+              <dd class="col-5 text-end mb-2" id="statPrice">&hellip;</dd>
+              <dt class="col-7">Average rating</dt>
+              <dd class="col-5 text-end mb-2" id="statRating">&hellip;</dd>
+              <dt class="col-7">Superhosts</dt>
+              <dd class="col-5 text-end mb-0" id="statSuperhosts">&hellip;</dd>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <section id="how-it-works" class="row g-4 pb-4">
+        <div class="col-md-4">
+          <h2 class="h6 text-uppercase text-body-secondary">1. Fetch</h2>
+          <p class="text-body-secondary mb-0">
+            An <code>async</code> function requests the JSON, checks
+            <code>res.ok</code>, and slices the first 50 records.
+          </p>
+        </div>
+        <div class="col-md-4">
+          <h2 class="h6 text-uppercase text-body-secondary">2. Render</h2>
+          <p class="text-body-secondary mb-0">
+            Each record is mapped to a Bootstrap card template string &mdash;
+            photo, host, price, description, amenities.
+          </p>
+        </div>
+        <div class="col-md-4">
+          <h2 class="h6 text-uppercase text-body-secondary">3. Compare</h2>
+          <p class="text-body-secondary mb-0">
+            Selections live in a <code>Set</code>; the tray re-renders from that
+            set and computes which amenities are unique to each pick.
+          </p>
+        </div>
+      </section>
+
+      <hr />
+
+      <section aria-labelledby="listingsHeading">
+        <div
+          class="d-flex flex-wrap align-items-baseline justify-content-between gap-2 mt-4 mb-3"
+        >
+          <h2 id="listingsHeading" class="mb-0">Listings</h2>
+          <p class="text-body-secondary mb-0" id="listingsSubtitle">
+            Loading the first 50 of 523 listings&hellip;
+          </p>
+        </div>
+
+        <div id="status" class="py-5 text-center" role="status" aria-live="polite">
+          <div class="spinner-border" aria-hidden="true"></div>
+          <p class="text-body-secondary mt-3 mb-0">Fetching listings&hellip;</p>
+        </div>
+
+        <div id="listings" class="row g-4"></div>
+      </section>
+    </main>
+
+    <footer class="container py-5 text-body-secondary">
+      <hr />
+      <p class="small mb-1">
+        Built for CS5610 Web Development. Data:
+        <a href="https://insideairbnb.com/get-the-data/" target="_blank" rel="noopener"
+          >Inside Airbnb</a
+        >, San Francisco snapshot (Sept 2023). Not affiliated with Airbnb.
+      </p>
+      <p class="small mb-0">
+        Starter code adapted from
+        <a
+          href="https://github.com/john-guerra/Airbnb_Listings_demo_page"
+          target="_blank"
+          rel="noopener"
+          >John Guerra's in-class demo</a
+        >.
+      </p>
+    </footer>
+
+    <!-- Compare tray: the creative addition -->
+    <aside
+      id="compareTray"
+      class="compare-tray"
+      aria-labelledby="compareTrayHeading"
+      aria-hidden="true"
+      inert
+    >
+      <div class="container">
+        <div
+          class="d-flex align-items-center justify-content-between gap-3 py-2 compare-tray-header"
+        >
+          <h2 id="compareTrayHeading" class="h6 mb-0">
+            Compare
+            <span class="badge text-bg-dark" id="compareCount">0</span>
+            <span class="text-body-secondary fw-normal d-none d-sm-inline"
+              >&mdash; pick up to 3</span
+            >
+          </h2>
+          <div class="d-flex gap-2">
+            <button id="clearCompare" class="btn btn-sm btn-outline-secondary" type="button">
+              Clear all
+            </button>
+            <button
+              id="closeCompare"
+              class="btn btn-sm btn-dark"
+              type="button"
+              aria-label="Close compare tray"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+        <div class="compare-tray-body" id="compareBody"></div>
+      </div>
+    </aside>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
