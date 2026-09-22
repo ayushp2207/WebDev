@@ -107,11 +107,21 @@ everything else closed over. Notable bits:
 ## Tech
 
 Vanilla JavaScript (ES2022, no framework, no bundler), Bootstrap 5.3 from a CDN,
-and custom CSS. Data from
-[Inside Airbnb](https://insideairbnb.com/get-the-data/), San Francisco,
-September 2023.
+and custom CSS. No build step and no dependencies at runtime — the only
+`devDependencies` are ESLint and Prettier.
 
-Starter code adapted from John Guerra's in-class demo,
+Data from [Inside Airbnb](https://insideairbnb.com/get-the-data/),
+San Francisco, September 2023.
+
+## Author
+
+**Ayush Patel** — [github.com/ayushp2207](https://github.com/ayushp2207)
+
+Built for [CS5610 Web Development](https://johnguerra.co/lectures/webDevelopment_fall2026/)
+at Northeastern University, taught by
+[John Alexis Guerra Gómez](https://johnguerra.co/).
+
+Starter code adapted from the in-class demo,
 [Airbnb_Listings_demo_page](https://github.com/john-guerra/Airbnb_Listings_demo_page).
-Built for CS5610 Web Development at Northeastern. Released under the
-[MIT License](LICENSE).
+
+Released under the [MIT License](LICENSE).
